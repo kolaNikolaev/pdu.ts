@@ -157,7 +157,8 @@ export class PDUParser {
 
         if (parts > 1) //UDHI
             submit = submit | TPUDHI;
-
+        if (message.relative_valid !== undefined && message.relative_valid)
+           submit=submit | TPVPF;
         if (message.request_status !== undefined && message.request_status)
             submit = submit | TPSRR;
         pdu += ('00' + submit.toString(16)).slice(-2);
