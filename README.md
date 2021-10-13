@@ -27,6 +27,7 @@ type pduMessage = {
     encoding: "16bit" | "8bit" | "7bit";
     text: string;
     request_status: boolean;
+    relative_valid: number
 };
 
 Generate(message: pduMessage): Array<string>;
@@ -48,3 +49,6 @@ octetLength(str: string): string;
 ussdEncode(ussd: string): string;
 
 ```
+
+##ADD
+adding prop relative_valid: number for optinality use validatify period relative in SMS message (Generate function)
