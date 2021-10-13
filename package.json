@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/kolaNikolaev/pdu.ts/issues"
   },
-  "homepage": "https://github.com/kolanikolaev/pdu.ts#readme",
+  "homepage": "https://github.com/kolaNikolaev/pdu.ts#readme",
   "devDependencies": {
     "@types/node": "^10.3.2",
     "typescript": "^2.9.1"
