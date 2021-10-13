@@ -6,7 +6,8 @@ export type pduMessage = {
     receiver_type: number,
     encoding: "16bit" | "8bit" | "7bit",
     text: string,
-    request_status: boolean
+    request_status: boolean,
+    relative_valid: number
 }
 export class PDUParser {
     public static Parse(pdu: string) {
@@ -147,6 +148,7 @@ export class PDUParser {
         let TPMTI = 1 << 0; //(2 bits) type msg, 1=submit by MS
         let TPRD = 1 << 2; //(1 bit) reject duplicates
         let TPVPF = 1 << 3; //(2 bits) validaty f. : 0=not pres, 1=enhanc,2=relative,3=absolute
+        if (message.relative_valid !== undefined) TPVPF = 2 << 3;
         let TPSRR = 1 << 5; //(1 bit) want status reply
         let TPUDHI = 1 << 6; //(1 bit) 1=header+data, 0=only data
         let TPRP = 1 << 7; //(1 bit) reply-path
@@ -155,7 +157,8 @@ export class PDUParser {
 
         if (parts > 1) //UDHI
             submit = submit | TPUDHI;
-
+        if (message.relative_valid !== undefined && message.relative_valid)
+           submit=submit | TPVPF;
         if (message.request_status !== undefined && message.request_status)
             submit = submit | TPSRR;
         pdu += ('00' + submit.toString(16)).slice(-2);
@@ -177,6 +180,8 @@ export class PDUParser {
             pdu += '08';
         else if (message.encoding === '7bit')
             pdu += '00';
+        if (message.relative_valid !== undefined && message.relative_valid)
+            pdu += message.relative_valid.toString(16);
 
         var pdus = new Array();
 
